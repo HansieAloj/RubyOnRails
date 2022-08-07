@@ -10,26 +10,42 @@
         <%= link_to "Articles", articles_path, class: "nav-link" %>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <%= link_to "Bloggers", users_path, class: "nav-link" %>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Articles
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <%= link_to "Create new article", new_article_path, class: "dropdown-item" %>
-          <%= link_to "View articles", articles_path, class: "dropdown-item" %>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
+
+
       <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <% if logged_in? %>
+            <%= link_to "Create Article", new_article_path, class: "nav-link" %>
+          <% end %>  
       </li>
+
+      <li class="nav-item">
+          <% if logged_in? %>
+            <%= link_to "Delete Profile", user_path(current_user), data: {turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this Account?'}, class: "nav-link" %>
+          <% end %>  
+      </li>
+
+
+      <% if logged_in? %>
+        <li class="nav-link">
+            <%= "(Admin)" if current_user.admin? %> Profile [<%= current_user.username %>]
+        </li>
+        <li class="nav-item">
+        <%= link_to 'Logout', logout_path, class: "nav-link", data: {turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to 'Log in', login_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Sign up', signup_path, class: "nav-link" %>
+        </li>
+      <% end %>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <%# <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    </form> %>
   </div>
 </nav>
